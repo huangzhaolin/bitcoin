@@ -1,0 +1,9 @@
+{
+  "name": "bitcoin",
+  "description": "bitcoin trade analysis",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  }
+}
