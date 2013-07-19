@@ -1,38 +1,47 @@
-
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
-
+require('utils');
+var express = require('express'), routes = require('./routes/routers.js'), http = require('http'), dbconn = require('./dao/dao.js'), logger = require('./logger.js');
 var app = express();
 
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.configure(function() {
+	app.set('port', process.env.PORT || 3000);
+	app.set('views', __dirname + '/views');
+	app.engine(".html", require('ejs').__express);
+	app.set('view engine', 'html');
+	app.use(express.favicon());
+	app.use(function(req, res, next) {
+		logger.custom('access', 'from:' + req.ip + ' -> ' + req.originalUrl
+				+ ' - ' + res.statusCode);
+		next();
+	});
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.cookieParser());
+	app.use(express.session({
+		secret : 'keyboard cat'
+	}));
+	app.use(app.router);
+	app.use(express.static(__dirname + '/public'));
+});
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
+app.configure('development', function() {
+	app.use(express.errorHandler());
+});
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+/*
+ * app.post('*', function(req, res, next) { if (req.session.username) { next(); }
+ * else if (req.param("username")) { userViertify.userVertify(req, res, next); }
+ * else { res.send("username parameters is required !! please check!"); } });
+ */
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+app.post('/queryData.htm', routes.queryData);
+app.post('/topCount.htm', routes.topCount);
+app.post('/groupByDatetime.htm', routes.groupByDatetime);
+app.get('/', routes.view);
+app.get('/trendChart.htm', routes.trendChart);
+
+http.createServer(app).listen(app.get('port'), function() {
+	console.log("Express server listening on port " + app.get('port'));
 });
