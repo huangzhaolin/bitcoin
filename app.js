@@ -30,7 +30,7 @@ function checkErrorWords(req, res, next){
 	function vertify(parameters){
 	for(var key in parameters){
 			if(parameters[key].match(/update|delete|drop|select|grant|show/)){
-				logger.warn(message:parameters[key]+"包含非法关键词");
+				logger.warn(parameters[key]+"包含非法关键词");
 				throw {name:"非法的参数传递",message:parameters[key]+"参数异常!"}
 			}
 		}
