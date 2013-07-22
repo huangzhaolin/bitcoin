@@ -9,7 +9,7 @@ exports.queryData = function(req, res) {
 //index
 exports.index=function(req,res){
 	res.render('index', {
-		title: "Alibaba SMS Analysis",
+		title: "BitCoin Trade Analysis",
 		header: "@Jolinhuang.com"
 	});
 } 
