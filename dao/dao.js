@@ -5,15 +5,13 @@ var logger = require('../logger.js');
 var mysql = require('mysql');
 var fs = require('fs');
 
-var dbconn = null;
-connect();
 /**
  * 初始化，DB连接
  *
  * @param connection
  */
 
-function connect() {
+var dbconn = (function connect() {
         var connInfo = {
                           host: '',
                           user: '',
@@ -55,7 +53,7 @@ function connect() {
     });
     return dbconn
   }
-}
+})()
 /**
  * 执行sql
  *
