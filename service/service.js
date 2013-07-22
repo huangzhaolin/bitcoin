@@ -1,7 +1,7 @@
 /**
  * @authoer:zhaolinhuang
  */
-var dao = require('../dao/data.js');
+var dao = require('../dao/dao.js');
 var logger = require('../logger.js');
 var utils = require('util');
 var fs = require('fs');
