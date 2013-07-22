@@ -8,7 +8,7 @@ exports.queryData = function(req, res) {
 };
 //index
 exports.index=function(req,res){
-	res.render('BitCoin Trade Analysis', {
+	res.render('index', {
 		title: "Alibaba SMS Analysis",
 		header: "@Jolinhuang.com"
 	});
