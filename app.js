@@ -25,22 +25,27 @@ app.configure(function() {
 	app.use(app.router);
 	app.use(express.static(__dirname + '/public'));
 });
-
+//检测错误/非法关键词
+function checkErrorWords(req, res, next){
+	function vertify(parameters){
+	for(var key in parameters){
+			if(parameters[key].match(/update|delete|drop|select|grant|show/)){
+				throw {name:"非法的参数传递",message:parameters[key]+"参数异常!"}
+			}
+		}
+	}
+	vertify(req.query);
+	vertify(req.body);
+	next();
+}
 app.configure('development', function() {
 	app.use(express.errorHandler());
 });
-
-/*
- * app.post('*', function(req, res, next) { if (req.session.username) { next(); }
- * else if (req.param("username")) { userViertify.userVertify(req, res, next); }
- * else { res.send("username parameters is required !! please check!"); } });
- */
+//验证是否有sql注入
+app.get('*', checkErrorWords);
+app.post('*', checkErrorWords);
 
 app.post('/queryData.htm', routes.queryData);
-app.post('/topCount.htm', routes.topCount);
-app.post('/groupByDatetime.htm', routes.groupByDatetime);
-app.get('/', routes.view);
-app.get('/trendChart.htm', routes.trendChart);
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));
