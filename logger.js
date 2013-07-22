@@ -2,7 +2,7 @@
  * @authoer:zhaolinhuang create:2012-11-16
  */
 var fs = require('fs');
-var logDir = "/home/log/alibaba_sms_analysis";
+var logDir = "/home/log/bitcoin";
 function createLogDir() {
 	fs.exists(logDir,function(isExits){
 		if(!isExits){fs.mkdir(logDir);}
