@@ -6,7 +6,7 @@ var express = require('express'), routes = require('./routes/routers.js'), http 
 var app = express();
 
 app.configure(function() {
-	app.set('port', process.env.PORT || 3000);
+	app.set('port', process.env.PORT || 6666);
 	app.set('views', __dirname + '/views');
 	app.engine(".html", require('ejs').__express);
 	app.set('view engine', 'html');
