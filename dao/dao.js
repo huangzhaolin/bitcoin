@@ -13,25 +13,15 @@ var fs = require('fs');
 
 var dbconn = (function connect() {
         var connInfo = {
-                          host: '',
-                          user: '',
-                          port: "",
-                          password: '',
+                          host: 'localhost',
+                          user: 'root',
+                          port: "3306",
+                          password: '5527193',
                           database: "bitcoin",
                           charset: "",
                           insecureAuth: true
         };
-        fs.readFile('/home/zhaolin/config/dbconfig.properties',function(err,data){
-                if(err) throw err;
-                var propertyData=data.toString().split("\n");
-                for(var p in propertyData){
-                        if(!propertyData[p].match(/^$/)){
-                        var propertyInfo=propertyData[p].split("=");
-                        connInfo[propertyInfo[0].toLowerCase()]=propertyInfo[1];
-                }
-                        }
-                connectInit(connInfo);
-        });
+    return connectInit(connInfo);
 
   function connectInit(connInfo) {
     var dbconn = mysql.createConnection(connInfo);
@@ -45,7 +35,7 @@ var dbconn = (function connect() {
       }
       if (err.code == 'PROTOCOL_CONNECTION_LOST' || err.code == 'ECONNREFUSED') {
         logger.error(' db connect lost, reconnet ing :' + err.code + " : " + err.stack);
-        connectInit();
+        connectInit(connInfo);
         dbconn.connect();
       } else {
         throw err;
