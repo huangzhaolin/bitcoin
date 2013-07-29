@@ -13,5 +13,5 @@ bitcoin.requestData=function(){
 			console.log(jsonData);
 		}
 	})
-
 }
+bitcoin.requestData();
