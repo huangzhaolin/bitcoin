@@ -15,8 +15,8 @@ var dbconn = (function connect() {
         var connInfo = {
                           host: 'localhost',
                           user: 'root',
-                          port: "3306",
-                          password: '5527193',
+                          port: "",
+                          password: '',
                           database: "bitcoin",
                           charset: "",
                           insecureAuth: true
